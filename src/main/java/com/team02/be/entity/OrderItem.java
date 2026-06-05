@@ -7,8 +7,8 @@ import lombok.*;
 @Table(name = "order_items")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@AllArgsConstructor -> 멘토링 후 사용 결정
+//@Builder
 public class OrderItem {
 
     @Id

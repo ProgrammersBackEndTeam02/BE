@@ -7,8 +7,8 @@ import lombok.*;
 @Table(name = "products")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@AllArgsConstructor -> 멘토링 후 사용 결정
+//@Builder
 public class Product {
 
     @Id

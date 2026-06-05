@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@AllArgsConstructor -> 멘토링 후 사용 결정
+//@Builder
 
 // Auditing 기능을 Order 엔티티에 적용
 // 생성 시간(createdAt), 수정 시간(updatedAt)을 자동으로 관리
