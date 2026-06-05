@@ -60,7 +60,7 @@ public class Product {
     @Column(length = 255)
     // 상품 대표 이미지 URL
     // 최대 255자까지 저장
-    private String mainImageUrl;
+    private String thumbnailImageUrl;
 
     @Column(length = 255)
     // 상품 상세페이지 이미지 URL
