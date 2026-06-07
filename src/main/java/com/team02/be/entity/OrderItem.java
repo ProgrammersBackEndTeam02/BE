@@ -49,4 +49,13 @@ public class OrderItem {
     // 예) 캐냐 원두 1,000원 × 2개 = 2,000원
     // Order 전체 금액이 아니라 해당 상품 라인의 총액
     private int totalPrice;
+
+    // 주문 항목 생성 시 사용하는 생성자
+    public OrderItem(Order order, Product product, int quantity, int priceAtOrder, int totalPrice) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.priceAtOrder = priceAtOrder;
+        this.totalPrice = totalPrice;
+    }
 }
