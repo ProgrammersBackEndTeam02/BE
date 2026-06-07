@@ -6,9 +6,6 @@ import lombok.*;
 @Entity
 @Table(name = "order_items")
 @Getter
-@NoArgsConstructor
-//@AllArgsConstructor -> 멘토링 후 사용 결정
-//@Builder
 public class OrderItem {
 
     @Id
@@ -49,4 +46,8 @@ public class OrderItem {
     // 예) 캐냐 원두 1,000원 × 2개 = 2,000원
     // Order 전체 금액이 아니라 해당 상품 라인의 총액
     private int totalPrice;
+
+    // JPA 기본 생성자
+    protected OrderItem() {
+    }
 }
