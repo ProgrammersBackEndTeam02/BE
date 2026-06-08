@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
-@Tag(name = "Order", description = "주문 관리 API")
+@Tag(name = "Order", description = "주문 API")
 public class OrderController {
 
     private final OrderService orderService;

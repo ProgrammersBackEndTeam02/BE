@@ -48,4 +48,18 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(message);
     }
+
+    // 개발 중 서버 내부 오류 원인을 Swagger 응답에서 확인하기 위한 임시 처리
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleException(Exception e) {
+        e.printStackTrace();
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "status", 500,
+                        "error", e.getClass().getSimpleName(),
+                        "message", e.getMessage()
+                ));
+    }
 }

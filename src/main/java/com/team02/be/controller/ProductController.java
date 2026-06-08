@@ -39,7 +39,7 @@ public class ProductController {
      *        404 Not Found  : 해당 id의 상품이 존재하지 않음
      */
     @DeleteMapping("/api/admin/products/{id}")
-    @Operation(summary = "상품 삭제", description = "관리자가 상품 ID로 상품을 삭제합니다.")
+    @Operation(tags = {"Admin"}, summary = "상품 삭제", description = "관리자가 상품 ID로 상품을 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "삭제 성공"),
             @ApiResponse(responseCode = "404", description = "상품을 찾을 수 없음")
