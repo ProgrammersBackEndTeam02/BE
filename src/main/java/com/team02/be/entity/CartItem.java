@@ -1,7 +1,9 @@
 package com.team02.be.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
@@ -17,9 +19,7 @@ import lombok.*;
         }
 )
 @Getter
-@NoArgsConstructor
-//@AllArgsConstructor -> 멘토링 후 사용 결정
-//@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartItem {
 
     @Id
@@ -31,21 +31,16 @@ public class CartItem {
     @JoinColumn(name = "cart_id", nullable = false)
     // 장바구니 항목은 반드시 하나의 장바구니에 속함
     // FK: cart_id
-    // LAZY 로딩을 사용하여 실제 Cart 정보가 필요할 때 조회
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    // 장바구니 항목은 반드시 하나의 상품을 참조
+    // 장바구니 항목은 반드시 하나의 상품을 참조함
     // FK: product_id
-    // LAZY 로딩을 사용하여 실제 Product 정보가 필요할 때 조회
     private Product product;
 
     @Column(nullable = false)
     // 담은 수량
-    // 같은 상품을 다시 담으면 이 값을 증가시킴 (위 유니크 제약과 연계)
-    // primitive(int) 사용 → Java 레벨에서 null 저장 불가
-    // DB 레벨: NOT NULL 제약조건 생성
     private int quantity;
 
     // [미사용 결정] private int priceAtOrder;
@@ -66,5 +61,16 @@ public class CartItem {
 
     public void changeQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    // 장바구니 상품 생성 시 사용함
+    public CartItem(Cart cart, Product product, int quantity) {
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+    }
+
+    // 같은 상품을 다시 담을 때 기존 수량에 추가함
+    public void increaseQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }
