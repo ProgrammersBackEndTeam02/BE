@@ -7,9 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 // extends JpaRepository를 통해 기본 CRUD 메서드(save, findById, findAll, delete 등)를 사용할 수 있음
 // <Order, Long> -> Order 엔티티를 사용할 거고 Order 엔티티의 id 타입은 Long 타입이기 때문임
 public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    // 사용자 이메일로 주문 목록 조회
+    List<Order> findByCustomerEmail(String customerEmail);
 
     // 직접 작성한 JPQL로 관리자 주문 목록을 필터 조회
     // SELECT DISTINCT o -> 중복을 제거하고 Order 객체 o를 조회

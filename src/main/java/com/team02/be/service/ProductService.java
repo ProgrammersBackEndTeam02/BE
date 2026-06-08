@@ -2,7 +2,9 @@ package com.team02.be.service;
 
 import com.team02.be.dto.AdminProductCreateRequest;
 import com.team02.be.dto.AdminProductUpdateRequest;
+import com.team02.be.dto.ProductResponse;
 import com.team02.be.entity.Product;
+import com.team02.be.exception.NotFoundException;
 import com.team02.be.exception.ProductNotFoundException;
 import com.team02.be.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,15 @@ public class ProductService {
     // 상품 데이터에 접근하기 위해 ProductRepository를 주입받음
     // 상품 등록, 조회, 수정, 삭제에 필요한 DB 작업을 처리함
     private final ProductRepository productRepository;
+
+    // 상품 단건 조회 메서드
+    @Transactional(readOnly = true)
+    public ProductResponse findProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("해당 상품을 찾을 수 없습니다."));
+
+        return ProductResponse.from(product);
+    }
 
     // 상품 등록 메서드
     public void createProduct(AdminProductCreateRequest request) {

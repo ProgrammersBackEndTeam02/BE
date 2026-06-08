@@ -6,11 +6,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Map;
 import java.util.stream.Collectors;
 
 // 모든 Controller에서 발생하는 예외를 공통으로 처리하는 클래스
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    // 사용자의 주문 조회 등에서 데이터를 찾을 수 없을 때 처리
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of(
+                        "status", 404,
+                        "error", "Not Found",
+                        "message", e.getMessage()
+                ));
+    }
 
     // 상품을 찾을 수 없을 때 처리
     @ExceptionHandler(ProductNotFoundException.class)
