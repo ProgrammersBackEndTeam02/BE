@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface UserProductRepository extends JpaRepository<Product, Long> {
 
     // (:param IS NULL → 파라미터 없으면 조건 무시) 패턴
     @Query("SELECT p FROM Product p WHERE " +

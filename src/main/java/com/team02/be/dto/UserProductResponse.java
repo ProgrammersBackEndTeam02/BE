@@ -6,7 +6,7 @@ import com.team02.be.entity.Product;
 
 @Getter
 @Schema(description = "상품 응답 DTO")
-public class ProductResponse {
+public class UserProductResponse {
 
     @Schema(description = "상품 ID", example = "1")
     private Long id;
@@ -45,8 +45,8 @@ public class ProductResponse {
     private String detailPageImageUrl;
 
     // Entity → DTO 변환 책임은 DTO가 갖는 것이 깔끔
-    public static ProductResponse from(Product product) {
-        ProductResponse response = new ProductResponse();
+    public static UserProductResponse from(Product product) {
+        UserProductResponse response = new UserProductResponse();
 
         response.id = product.getId();
         response.productName = product.getProductName();

@@ -1,7 +1,7 @@
 package com.team02.be.controller;
 import com.team02.be.entity.Product;
-import com.team02.be.dto.ProductResponse;
-import com.team02.be.service.ProductService;
+import com.team02.be.dto.UserProductResponse;
+import com.team02.be.service.UserProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,9 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class UserProductController {
 
-    private final ProductService productService;
+    private final UserProductService userProductService;
 
     @Operation(
             summary = "상품 목록 조회",
@@ -28,7 +28,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts(
+    public ResponseEntity<List<UserProductResponse>> getProducts(
 
             @Parameter(description = "디카페인 여부 필터")
             @RequestParam(required = false) Boolean isDecaf,
@@ -40,7 +40,7 @@ public class ProductController {
             @RequestParam(required = false) Boolean acidity
 
     ) {
-        List<ProductResponse> result = productService.getProducts(isDecaf, roastingLevel, acidity);
+        List<UserProductResponse> result = userProductService.getProducts(isDecaf, roastingLevel, acidity);
         return ResponseEntity.ok(result);
     }
 }

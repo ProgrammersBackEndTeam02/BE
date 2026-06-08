@@ -1,7 +1,7 @@
 package com.team02.be.service;
 import com.team02.be.entity.Product;
-import com.team02.be.dto.ProductResponse;
-import com.team02.be.repository.ProductRepository;
+import com.team02.be.dto.UserProductResponse;
+import com.team02.be.repository.UserProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,24 +9,24 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+public class UserProductServiceImpl implements UserProductService {
 
-    private final ProductRepository productRepository;
+    private final UserProductRepository userProductRepository;
 
     @Override
-    public List<ProductResponse> getProducts(
+    public List<UserProductResponse> getProducts(
             Boolean isDecaf,
             Product.RoastingLevel roastingLevel,
             Boolean acidity) {
 
-        List<Product> products = productRepository.findByFilters(
+        List<Product> products = userProductRepository.findByFilters(
                 isDecaf,
                 roastingLevel,
                 acidity
         );
 
         return products.stream()
-                .map(ProductResponse::from)
+                .map(UserProductResponse::from)
                 .toList();
     }
 }
