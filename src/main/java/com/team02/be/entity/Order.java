@@ -11,10 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "orders")
 @Getter
-@NoArgsConstructor
-//@AllArgsConstructor -> 멘토링 후 사용 결정
-//@Builder
-
 // Auditing 기능을 Order 엔티티에 적용
 // 생성 시간(createdAt), 수정 시간(updatedAt)을 자동으로 관리
 @EntityListeners(AuditingEntityListener.class)
@@ -67,10 +63,30 @@ public class Order {
     // 엔티티 변경 후 save() 시 Spring이 자동 갱신
     private LocalDateTime updatedAt;
 
+    // 주문 생성 시 사용하는 생성자
+    // @NoArgsConstructor는 JPA 내부용, 이 생성자는 Service에서 사용
+    public Order(String customerEmail, String address, String zipCode, OrderStatus orderStatus, int totalPrice) {
+        this.customerEmail = customerEmail;
+        this.address = address;
+        this.zipCode = zipCode;
+        this.orderStatus = orderStatus;
+        this.totalPrice = totalPrice;
+    }
+
     public enum OrderStatus {
+        PENDING,    // 주문 대기
         PROCESSING, // 처리중
         SHIPPING,   // 배송중
         DELIVERED,  // 배송완료
         CANCELLED   // 취소
+    }
+
+    // 주문 상태 수정 메서드
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    // JPA 기본 생성자
+    protected Order() {
     }
 }
