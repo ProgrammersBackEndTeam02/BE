@@ -1,14 +1,18 @@
 package com.team02.be.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
 /**
  * 주문 생성 요청 DTO
  *
- * 프론트에서 "결제하기" 클릭 시 보내는 전체 주문 데이터
+ * record 사용 이유:
+ * - 불변(immutable) 객체로 값 변경 불가
+ * - Getter/생성자를 자동으로 제공하여 코드 간결화
  *
  * 예)
  * {
@@ -16,24 +20,24 @@ import java.util.List;
  *   "address": "서울시 강남구",
  *   "zipCode": "06000",
  *   "items": [
- *     { "productId": 1, "quantity": 2 },
- *     { "productId": 3, "quantity": 1 }
+ *     { "productId": 1, "quantity": 2 }
  *   ]
  * }
  */
-@Getter
-@NoArgsConstructor
-public class OrderRequest {
+public record OrderRequest(
 
-    // 주문자 이메일
-    private String customerEmail;
+        @NotBlank(message = "이메일은 필수입니다.")
+        @Email(message = "올바른 이메일 형식이 아닙니다.")
+        String customerEmail,
 
-    // 배송 주소
-    private String address;
+        @NotBlank(message = "주소는 필수입니다.")
+        String address,
 
-    // 우편번호
-    private String zipCode;
+        @NotBlank(message = "우편번호는 필수입니다.")
+        String zipCode,
 
-    // 주문 상품 목록 (상품id + 수량)
-    private List<OrderItemRequest> items;
-}
+        @NotEmpty(message = "주문 상품은 1개 이상이어야 합니다.")
+        @Valid
+        List<OrderItemRequest> items
+
+) {}
