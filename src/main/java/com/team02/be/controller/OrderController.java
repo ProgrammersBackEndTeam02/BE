@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +48,7 @@ public class OrderController {
             @ApiResponse(responseCode = "201", description = "주문 생성 성공"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 상품")
     })
-    public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
         OrderResponse response = orderService.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
