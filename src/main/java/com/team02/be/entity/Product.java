@@ -99,7 +99,7 @@ public class Product {
             String description,
             String thumbnailImageUrl,
             String detailPageImageUrl
-    ){
+    ) {
         // 사용자가 수정 요청에 포함한 값만 들어옴
         // null이 아닌 값만 현재 Product 객체의 필드에 반영함
         if (productName != null) {
