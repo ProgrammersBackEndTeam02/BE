@@ -11,7 +11,7 @@ import com.team02.be.service.AdminService;
 
 import java.util.List;
 
-@Tag(name = "client-controller", description = "고객 API")
+@Tag(name = "Order", description = "주문 API")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

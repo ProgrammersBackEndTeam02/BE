@@ -4,6 +4,7 @@ import com.team02.be.dto.AdminProductCreateRequest;
 import com.team02.be.dto.AdminProductUpdateRequest;
 import com.team02.be.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 // 이 컨트롤러의 모든 API는 /api/admin/products 경로로 시작함
 @RequestMapping("/api/admin/products")
+@Tag(name = "Admin", description = "관리자 API")
 public class AdminProductController {
 
     // 상품 관련 로직을 처리하기 위해 ProductService를 가져옴
