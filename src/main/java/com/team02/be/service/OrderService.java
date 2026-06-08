@@ -3,6 +3,7 @@ package com.team02.be.service;
 import com.team02.be.dto.OrderItemResponse;
 import com.team02.be.dto.OrderResponse;
 import com.team02.be.entity.Order;
+import com.team02.be.exception.NotFoundException;
 import com.team02.be.repository.OrderItemRepository;
 import com.team02.be.repository.OrderRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderResponse findOrder(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("주문을 찾을 수 없습니다. id=" + id));
+                .orElseThrow(() -> new NotFoundException("해당 주문을 찾을 수 없습니다."));
 
         List<OrderItemResponse> orderItems = orderItemRepository.findByOrderId(id).stream()
                 .map(OrderItemResponse::from)
