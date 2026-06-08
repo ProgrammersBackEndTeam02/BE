@@ -74,14 +74,19 @@ public class Order {
     }
 
     public enum OrderStatus {
-        PENDING, // 주문 대기
+        PENDING,    // 주문 대기
         PROCESSING, // 처리중
         SHIPPING,   // 배송중
         DELIVERED,  // 배송완료
         CANCELLED   // 취소
     }
 
+    // 주문 상태 수정 메서드
     public void updateOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    // JPA 기본 생성자
+    protected Order() {
     }
 }

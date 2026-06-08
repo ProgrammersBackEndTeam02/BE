@@ -85,7 +85,6 @@ public class Product {
         this.description = description;
         this.thumbnailImageUrl = thumbnailImageUrl;
         this.detailPageImageUrl = detailPageImageUrl;
-
     }
 
     // null이 아닌 값들이 들어오면 해당 값을 수정
