@@ -6,6 +6,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -17,13 +19,13 @@ public class GlobalExceptionHandler {
 
     // @Valid 검증 실패 시 발생하는 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
-        String errorMessage = e.getBindingResult()
-                .getFieldErrors()
-                .get(0)
-                .getDefaultMessage();
+    public ResponseEntity<String> handleValidation(MethodArgumentNotValidException e) {
+        String message = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(errorMessage);
+                .body(message);
     }
 }
