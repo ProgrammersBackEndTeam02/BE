@@ -2,6 +2,7 @@ package com.team02.be.dto;
 
 import com.team02.be.entity.Order;
 import com.team02.be.entity.Order.OrderStatus;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +26,19 @@ public record OrderResponse(
                 order.getTotalPrice(),
                 order.getCreatedAt(),
                 orderItems
+        );
+    }
+
+    public OrderResponse(Order order) {
+        this(
+                order.getId(),
+                order.getCustomerEmail(),
+                order.getAddress(),
+                order.getZipCode(),
+                order.getOrderStatus(),
+                order.getTotalPrice(),
+                order.getCreatedAt(),
+                List.of()
         );
     }
 }

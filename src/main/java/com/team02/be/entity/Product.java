@@ -6,9 +6,6 @@ import lombok.*;
 @Entity
 @Table(name = "products")
 @Getter
-@NoArgsConstructor
-//@AllArgsConstructor -> 멘토링 후 사용 결정
-//@Builder
 public class Product {
 
     @Id
@@ -71,5 +68,74 @@ public class Product {
         LIGHT,
         MEDIUM,
         DARK
+    }
+
+    // JPA 기본 생성자
+    protected Product() {
+    }
+
+    // 상품 생성자
+    public Product(String productName, boolean isDecaf, RoastingLevel roastingLevel, boolean acidity, int productPrice, int stock, String description, String thumbnailImageUrl, String detailPageImageUrl) {
+        this.productName = productName;
+        this.isDecaf = isDecaf;
+        this.roastingLevel = roastingLevel;
+        this.acidity = acidity;
+        this.productPrice = productPrice;
+        this.stock = stock;
+        this.description = description;
+        this.thumbnailImageUrl = thumbnailImageUrl;
+        this.detailPageImageUrl = detailPageImageUrl;
+
+    }
+
+    // null이 아닌 값들이 들어오면 해당 값을 수정
+    public void updateProduct(
+            String productName,
+            Boolean isDecaf,
+            RoastingLevel roastingLevel,
+            Boolean acidity,
+            Integer productPrice,
+            Integer stock,
+            String description,
+            String thumbnailImageUrl,
+            String detailPageImageUrl
+    ) {
+        // 사용자가 수정 요청에 포함한 값만 들어옴
+        // null이 아닌 값만 현재 Product 객체의 필드에 반영함
+        if (productName != null) {
+            this.productName = productName;
+        }
+
+        if (isDecaf != null) {
+            this.isDecaf = isDecaf;
+        }
+
+        if (roastingLevel != null) {
+            this.roastingLevel = roastingLevel;
+        }
+
+        if (acidity != null) {
+            this.acidity = acidity;
+        }
+
+        if (productPrice != null) {
+            this.productPrice = productPrice;
+        }
+
+        if (stock != null) {
+            this.stock = stock;
+        }
+
+        if (description != null) {
+            this.description = description;
+        }
+
+        if (thumbnailImageUrl != null) {
+            this.thumbnailImageUrl = thumbnailImageUrl;
+        }
+
+        if (detailPageImageUrl != null) {
+            this.detailPageImageUrl = detailPageImageUrl;
+        }
     }
 }
