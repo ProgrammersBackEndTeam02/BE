@@ -64,6 +64,7 @@ public class OrderService {
         orderRepository.save(order);
 
         // 3. OrderItem 생성 및 저장
+        // 각 상품에 대해 주문 당시 가격을 기록
         for (OrderItemRequest item : request.items()) {
             Product product = productRepository.findById(item.productId())
                     .orElseThrow(() -> new ProductNotFoundException(item.productId()));
