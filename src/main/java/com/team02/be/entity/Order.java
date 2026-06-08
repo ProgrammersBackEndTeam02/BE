@@ -73,4 +73,8 @@ public class Order {
         DELIVERED,  // 배송완료
         CANCELLED   // 취소
     }
+
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

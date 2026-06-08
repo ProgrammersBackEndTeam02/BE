@@ -1,12 +1,13 @@
+//build.gradle Setting
+//꼭 저장과 새로고침을 해야함
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.14'
+    id 'org.springframework.boot' version '3.4.5'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.team02'
 version = '0.0.1-SNAPSHOT'
-description = 'BE'
 
 java {
     toolchain {
@@ -19,17 +20,29 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //REST API 개발용
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
+
+    //@Valid, @NotBlank, @Email, @Size 사용
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //JPA 사용용
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    //MySQL 연결 드라이버
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //Swagger UI
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14'
+
+    //Lombok
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.projectlombok:lombok'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
 }
 
 tasks.named('test') {
