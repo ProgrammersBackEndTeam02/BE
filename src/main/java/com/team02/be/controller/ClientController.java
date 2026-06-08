@@ -19,7 +19,7 @@ public class ClientController {
     private final ClientService clientService;
 
     @Operation(summary = "주문 상태 변경", description = "주문 상태를 변경합니다.")
-    @PostMapping("/{orderId}/status")
+    @PatchMapping("/{orderId}/status")
     public void updateOrderStatus(@PathVariable Long orderId, @RequestParam Order.OrderStatus status) {
         clientService.updateClientOrderStatus(orderId,status);
     }
