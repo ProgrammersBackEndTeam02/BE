@@ -63,4 +63,8 @@ public class CartItem {
     // 1) 위와 동일하게 장바구니는 미확정 상태라 금액을 고정할 이유가 없음
     // 2) (현재 Product.productPrice × quantity)로 조회 시점에 즉시 계산 가능
     // → 서비스 레이어에서 계산해 프론트로 응답
+
+    public void changeQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }
