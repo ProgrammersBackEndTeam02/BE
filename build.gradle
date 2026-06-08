@@ -1,13 +1,12 @@
-//build.gradle Setting
-//꼭 저장과 새로고침을 해야함
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.5'
+    id 'org.springframework.boot' version '3.5.14'
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.team02'
 version = '0.0.1-SNAPSHOT'
+description = 'BE'
 
 java {
     toolchain {
@@ -41,6 +40,7 @@ dependencies {
 
     //테스트용
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
