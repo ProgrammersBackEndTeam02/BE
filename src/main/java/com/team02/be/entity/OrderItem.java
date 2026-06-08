@@ -6,9 +6,6 @@ import lombok.*;
 @Entity
 @Table(name = "order_items")
 @Getter
-@NoArgsConstructor
-//@AllArgsConstructor -> 멘토링 후 사용 결정
-//@Builder
 public class OrderItem {
 
     @Id
@@ -50,12 +47,7 @@ public class OrderItem {
     // Order 전체 금액이 아니라 해당 상품 라인의 총액
     private int totalPrice;
 
-    // 주문 항목 생성 시 사용하는 생성자
-    public OrderItem(Order order, Product product, int quantity, int priceAtOrder, int totalPrice) {
-        this.order = order;
-        this.product = product;
-        this.quantity = quantity;
-        this.priceAtOrder = priceAtOrder;
-        this.totalPrice = totalPrice;
+    // JPA 기본 생성자
+    protected OrderItem() {
     }
 }

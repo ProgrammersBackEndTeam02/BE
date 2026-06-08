@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Admin Order", description = "관리자 주문 관리 API")
 // 관리자 주문 관련 API를 처리하는 컨트롤러임
 // 관리자 주문 목록 조회, 주문 상태 필터링, 상품명 필터링 요청을 처리함
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/orders")
-@Tag(name = "Admin Order", description = "관리자 주문 관리 API")
 public class AdminOrderController {
 
     // 주문 관련 비즈니스 로직을 처리하기 위해 OrderService를 주입받음
     // 실제 주문 조회 로직은 Controller가 직접 처리하지 않고 Service에 위임함
     private final OrderService orderService;
 
-    // 관리자 주문 목록 필터 조회 API임
-    // order_status, product_name, page, size 값을 쿼리 파라미터로 받을 수 있음
-    @GetMapping
     @Operation(
             summary = "관리자 주문 필터 조회",
             description = "주문 상태와 상품명으로 관리자 주문 목록을 필터링하여 조회합니다."
     )
+    // 관리자 주문 목록 필터 조회 API임
+    // order_status, product_name, page, size 값을 쿼리 파라미터로 받을 수 있음
+    @GetMapping
     public Page<AdminOrderSearchResponse> getAdminOrders(
 
             // URL 쿼리 파라미터 order_status 값을 받음
