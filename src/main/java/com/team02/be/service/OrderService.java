@@ -49,18 +49,18 @@ public class OrderService {
         // 1. 총 주문 금액 계산
         // 각 상품의 현재 가격 × 수량을 합산
         int totalPrice = 0;
-        for (OrderItemRequest item : request.getItems()) {
-            Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ProductNotFoundException(item.getProductId()));
-            totalPrice += product.getProductPrice() * item.getQuantity();
+        for (OrderItemRequest item : request.items()) {
+            Product product = productRepository.findById(item.productId())
+                    .orElseThrow(() -> new ProductNotFoundException(item.productId()));
+            totalPrice += product.getProductPrice() * item.quantity();
         }
 
         // 2. Order 생성 및 저장
         // 주문 상태는 생성 시 항상 PROCESSING(처리중)으로 시작
         Order order = new Order(
-                request.getCustomerEmail(),
-                request.getAddress(),
-                request.getZipCode(),
+                request.customerEmail(),
+                request.address(),
+                request.zipCode(),
                 Order.OrderStatus.PROCESSING,
                 totalPrice
         );
@@ -68,14 +68,14 @@ public class OrderService {
 
         // 3. OrderItem 생성 및 저장
         // 각 상품에 대해 주문 당시 가격을 기록
-        for (OrderItemRequest item : request.getItems()) {
-            Product product = productRepository.findById(item.getProductId())
-                    .orElseThrow(() -> new ProductNotFoundException(item.getProductId()));
+        for (OrderItemRequest item : request.items()) {
+            Product product = productRepository.findById(item.productId())
+                    .orElseThrow(() -> new ProductNotFoundException(item.productId()));
 
             int priceAtOrder = product.getProductPrice();
-            int itemTotalPrice = priceAtOrder * item.getQuantity();
+            int itemTotalPrice = priceAtOrder * item.quantity();
 
-            OrderItem orderItem = new OrderItem(order, product, item.getQuantity(), priceAtOrder, itemTotalPrice);
+            OrderItem orderItem = new OrderItem(order, product, item.quantity(), priceAtOrder, itemTotalPrice);
             orderItemRepository.save(orderItem);
         }
 
