@@ -11,10 +11,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 주문(Order) API 컨트롤러
@@ -29,19 +28,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    /**
-     * 주문 생성 API
-     *
-     * [요청] POST /api/orders
-     *        Body: { customerEmail, address, zipCode, items: [{productId, quantity}] }
-     * [응답] 201 Created : 주문 생성 성공
-     *        404 Not Found : 요청한 상품이 존재하지 않음
-     *
-     * @RequestBody : HTTP 요청 본문(JSON)을 OrderRequest 객체로 변환
-     *
-     * @param request 주문 생성 요청 데이터
-     * @return 201 + 생성된 주문 정보
-     */
+    // 주문 생성 API
     @PostMapping
     @Operation(summary = "주문 생성", description = "사용자가 상품을 주문합니다.")
     @ApiResponses({
@@ -51,5 +38,19 @@ public class OrderController {
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request) {
         OrderResponse response = orderService.createOrder(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    // 주문 상세 조회 API
+    @GetMapping("/{id}")
+    @Operation(summary = "주문 상세 조회", description = "주문 ID로 주문 상세 정보를 조회합니다.")
+    public OrderResponse getOrder(@PathVariable Long id) {
+        return orderService.findOrder(id);
+    }
+
+    // 이메일로 주문 내역 조회 API
+    @GetMapping
+    @Operation(summary = "이메일로 주문 내역 조회", description = "이메일을 기준으로 주문 내역을 조회합니다.")
+    public List<OrderResponse> getOrdersByEmail(@RequestParam String email) {
+        return orderService.findOrdersByEmail(email);
     }
 }
