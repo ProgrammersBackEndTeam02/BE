@@ -6,31 +6,17 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Swagger 설정 클래스
- *
- * 이 클래스는 Swagger UI 화면 상단에 표시되는
- * API 문서의 제목, 설명, 버전 정보를 설정한다.
- *
- * 주의:
- * 이 클래스는 API 주소를 만드는 Controller가 아니다.
- * 실제 API는 @RestController가 붙은 Controller 클래스에서 만든다.
- *
- * 즉,
- * SwaggerConfig = Swagger 문서 설정
- * MemberController = 실제 API 생성
- */
+//Swagger 설정 클래스
+//이 클래스는 Swagger UI 화면 상단에 표시되는 API 문서의 제목, 설명, 버전 정보를 설정함
+//주의 -> 이 클래스는 API 주소를 만드는 Controller가 아님
+//실제 API는 @RestController가 붙은 Controller 클래스에서 만듦
+//SwaggerConfig = Swagger 문서 설정
+//MemberController = 실제 API 생성
 @Configuration
 public class SwaggerConfig {
 
-    /**
-     * Swagger UI에 표시될 OpenAPI 기본 정보를 등록한다.
-     *
-     * 이 Bean을 등록하면 Swagger UI 화면 상단에
-     * title, description, version 정보가 표시된다.
-     *
-     * @return Swagger 문서 기본 정보
-     */
+    //Swagger UI에 표시될 OpenAPI 기본 정보를 등록함
+    //이 Bean을 등록하면 Swagger 화면 상단에 title, description, version 정보가 표시됨
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
