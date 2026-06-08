@@ -81,7 +81,7 @@ public class Order {
         CANCELLED   // 취소
     }
 
-    // JPA 기본 생성자
-    protected Order() {
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

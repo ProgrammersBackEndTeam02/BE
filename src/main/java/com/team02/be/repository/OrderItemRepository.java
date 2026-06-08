@@ -2,15 +2,12 @@ package com.team02.be.repository;
 
 import com.team02.be.entity.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * 주문 항목(OrderItem) DB 접근 인터페이스
- *
- * JpaRepository 상속으로 save, findById 등 기본 메서드 자동 제공
- */
+@Repository
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
-
     List<OrderItem> findByOrderId(Long orderId);
+    List<OrderItem> findByProductId(Long productId);
 }
