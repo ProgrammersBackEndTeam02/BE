@@ -18,12 +18,19 @@ public record OrderListResponse(
         int totalPrice,
         LocalDateTime createdAt
 ) {
+
     /**
      * Order 엔티티를 OrderListResponse DTO로 변환하는 생성자
      *
      * @param order 조회된 Order 엔티티
      */
     public OrderListResponse(Order order) {
-        this(order.getId(), order.getCustomerEmail(), order.getOrderStatus().name(), order.getTotalPrice(), order.getCreatedAt());
+        this(
+                order.getId(),
+                order.getCustomerEmail(),
+                order.getOrderStatus().name(),
+                order.getTotalPrice(),
+                order.getCreatedAt()
+        );
     }
 }

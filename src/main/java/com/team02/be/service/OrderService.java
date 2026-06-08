@@ -1,6 +1,7 @@
 package com.team02.be.service;
 
 import com.team02.be.dto.OrderItemRequest;
+import com.team02.be.dto.OrderListResponse;
 import com.team02.be.dto.OrderRequest;
 import com.team02.be.dto.OrderResponse;
 import com.team02.be.entity.Order;
@@ -11,6 +12,8 @@ import com.team02.be.repository.OrderItemRepository;
 import com.team02.be.repository.OrderRepository;
 import com.team02.be.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,5 +80,25 @@ public class OrderService {
         }
 
         return new OrderResponse(order);
+    }
+
+    /**
+     * 주문 목록 조회 (페이징)
+     *
+     * 처리 흐름:
+     * 1. Pageable(page, size)을 받아 해당 페이지의 주문 목록 조회
+     * 2. Order 엔티티를 OrderListResponse DTO로 변환하여 반환
+     *
+     * Pageable 동작 방식:
+     * - page=0, size=10 → 첫 번째 페이지, 10개씩 조회
+     * - page=1, size=10 → 두 번째 페이지, 10개씩 조회
+     *
+     * @param pageable 페이지 번호, 페이지 크기 정보
+     * @return 페이징된 주문 목록 (주문id, 이메일, 상태, 총액, 생성시각)
+     */
+    @Transactional(readOnly = true)
+    public Page<OrderListResponse> getOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable)
+                .map(OrderListResponse::new);
     }
 }
