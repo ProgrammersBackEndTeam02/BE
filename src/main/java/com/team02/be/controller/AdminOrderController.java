@@ -1,7 +1,9 @@
 package com.team02.be.controller;
 
+import com.team02.be.dto.AdminOrderGroupResponse;
 import com.team02.be.dto.AdminOrderSearchRequest;
 import com.team02.be.dto.AdminOrderSearchResponse;
+import java.util.List;
 import com.team02.be.entity.Order;
 import com.team02.be.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,5 +75,17 @@ public class AdminOrderController {
 
         // Service에서 전체 조회 또는 필터 조회를 처리하고 응답 DTO로 변환함
         return orderService.getAdminOrders(request, pageable);
+    }
+
+    @GetMapping("/grouped")
+    @Operation(
+            summary = "관리자 주문 그룹 조회",
+            description = "같은 이메일·주소·배송일 기준으로 묶인 주문 그룹 목록을 배송 예정일 순으로 조회합니다."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공")
+    })
+    public List<AdminOrderGroupResponse> getGroupedAdminOrders() {
+        return orderService.getGroupedAdminOrders();
     }
 }
