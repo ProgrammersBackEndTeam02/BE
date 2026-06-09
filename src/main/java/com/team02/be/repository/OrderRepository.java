@@ -4,13 +4,10 @@ import com.team02.be.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 // extends JpaRepository를 통해 기본 CRUD 메서드(save, findById, findAll, delete 등)를 사용할 수 있음
 // <Order, Long> -> Order 엔티티를 사용할 거고 Order 엔티티의 id 타입은 Long 타입이기 때문임
@@ -18,30 +15,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // 사용자 이메일로 주문 목록 조회
     List<Order> findByCustomerEmail(String customerEmail);
-
-    // 오늘 오후 2시 이전에 같은 이메일/주소로 생성된 합산 가능한 주문 조회
-    @Query("""
-        SELECT o FROM Order o
-        WHERE o.customerEmail = :email
-          AND o.address = :address
-          AND o.zipCode = :zipCode
-          AND o.orderStatus = :status
-          AND o.createdAt >= :startOfDay
-          AND o.createdAt < :cutoff
-        """)
-    Optional<Order> findMergableOrder(
-            @Param("email") String email,
-            @Param("address") String address,
-            @Param("zipCode") String zipCode,
-            @Param("status") Order.OrderStatus status,
-            @Param("startOfDay") LocalDateTime startOfDay,
-            @Param("cutoff") LocalDateTime cutoff
-    );
-
-    // 주문 totalPrice 누적 업데이트
-    @Modifying
-    @Query("UPDATE Order o SET o.totalPrice = o.totalPrice + :amount WHERE o.id = :id")
-    void addTotalPrice(@Param("id") Long id, @Param("amount") int amount);
 
     // 직접 작성한 JPQL로 관리자 주문 목록을 필터 조회
     // SELECT DISTINCT o -> 중복을 제거하고 Order 객체 o를 조회
