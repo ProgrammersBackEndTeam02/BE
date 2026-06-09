@@ -21,7 +21,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 주문(Order) 비즈니스 로직 클래스
@@ -37,8 +40,49 @@ public class OrderService {
     // 주문 생성
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime cutoff = now.toLocalDate().atTime(LocalTime.of(14, 0));
 
-        // 1. 총 주문 금액 계산
+        // 오후 2시 이전이면 오늘 같은 이메일/주소로 생성된 주문에 합산
+        if (now.isBefore(cutoff)) {
+            LocalDateTime startOfDay = now.toLocalDate().atStartOfDay();
+            Optional<Order> existing = orderRepository.findMergableOrder(
+                    request.customerEmail(),
+                    request.address(),
+                    request.zipCode(),
+                    Order.OrderStatus.PROCESSING,
+                    startOfDay,
+                    cutoff
+            );
+
+            if (existing.isPresent()) {
+                return mergeIntoExistingOrder(existing.get(), request);
+            }
+        }
+
+        return createNewOrder(request);
+    }
+
+    private OrderResponse mergeIntoExistingOrder(Order order, OrderRequest request) {
+        int additionalPrice = 0;
+
+        for (OrderItemRequest item : request.items()) {
+            Product product = productRepository.findById(item.productId())
+                    .orElseThrow(() -> new ProductNotFoundException(item.productId()));
+
+            int priceAtOrder = product.getProductPrice();
+            int itemTotalPrice = priceAtOrder * item.quantity();
+            additionalPrice += itemTotalPrice;
+
+            orderItemRepository.save(new OrderItem(order, product, item.quantity(), priceAtOrder, itemTotalPrice));
+        }
+
+        orderRepository.addTotalPrice(order.getId(), additionalPrice);
+
+        return new OrderResponse(order);
+    }
+
+    private OrderResponse createNewOrder(OrderRequest request) {
         int totalPrice = 0;
         for (OrderItemRequest item : request.items()) {
             Product product = productRepository.findById(item.productId())
@@ -47,7 +91,6 @@ public class OrderService {
             totalPrice += product.getProductPrice() * item.quantity();
         }
 
-        // 2. Order 생성 및 저장
         Order order = new Order(
                 request.customerEmail(),
                 request.address(),
@@ -57,8 +100,6 @@ public class OrderService {
         );
         orderRepository.save(order);
 
-        // 3. OrderItem 생성 및 저장
-        // 각 상품에 대해 주문 당시 가격을 기록
         for (OrderItemRequest item : request.items()) {
             Product product = productRepository.findById(item.productId())
                     .orElseThrow(() -> new ProductNotFoundException(item.productId()));
@@ -66,15 +107,7 @@ public class OrderService {
             int priceAtOrder = product.getProductPrice();
             int itemTotalPrice = priceAtOrder * item.quantity();
 
-            OrderItem orderItem = new OrderItem(
-                    order,
-                    product,
-                    item.quantity(),
-                    priceAtOrder,
-                    itemTotalPrice
-            );
-
-            orderItemRepository.save(orderItem);
+            orderItemRepository.save(new OrderItem(order, product, item.quantity(), priceAtOrder, itemTotalPrice));
         }
 
         return new OrderResponse(order);
