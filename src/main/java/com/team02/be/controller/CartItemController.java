@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cart/items")
+@RequestMapping("/api/cart/items")
 @Tag(name = "Cart", description = "장바구니 API")
 public class CartItemController {
 
