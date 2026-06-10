@@ -1,10 +1,8 @@
 package com.team02.be.service;
 
 import com.team02.be.entity.Order;
-import com.team02.be.entity.Product;
 import com.team02.be.repository.OrderRepository;
-import com.team02.be.repository.ProductsRepository;
-import com.team02.be.entity.Order;
+import com.team02.be.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService {
 
     private final OrderRepository orderRepository;
-    private final ProductsRepository productsRepository;
 
     @Transactional
     public void updateClientOrderStatus(Long orderId, Order.OrderStatus status) {

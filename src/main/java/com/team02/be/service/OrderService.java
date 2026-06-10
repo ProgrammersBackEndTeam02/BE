@@ -47,8 +47,10 @@ public class OrderService {
     public OrderResponse createOrder(OrderRequest request) {
         int totalPrice = 0;
         for (OrderItemRequest item : request.items()) {
-            Product product = productRepository.findById(item.productId())
+            Product product = productRepository.findByIdForUpdate(item.productId())
                     .orElseThrow(() -> new ProductNotFoundException(item.productId()));
+
+            product.decreaseStock(item.quantity());
 
             totalPrice += product.getProductPrice() * item.quantity();
         }

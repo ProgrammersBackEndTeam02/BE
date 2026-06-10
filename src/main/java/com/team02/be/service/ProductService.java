@@ -2,14 +2,19 @@ package com.team02.be.service;
 
 import com.team02.be.dto.AdminProductCreateRequest;
 import com.team02.be.dto.AdminProductUpdateRequest;
+import com.team02.be.dto.BestSellingProductResponse;
 import com.team02.be.dto.ProductResponse;
 import com.team02.be.entity.Product;
 import com.team02.be.exception.NotFoundException;
 import com.team02.be.exception.ProductNotFoundException;
+import com.team02.be.repository.OrderItemRepository;
 import com.team02.be.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,8 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     // 상품 데이터에 접근하기 위해 ProductRepository를 주입받음
-    // 상품 등록, 조회, 수정, 삭제에 필요한 DB 작업을 처리함
     private final ProductRepository productRepository;
+    // 주문 상품에 접근하기 위해 OrderItemRepository를 주입받음
+    private final OrderItemRepository orderItemRepository;
 
     // 상품 단건 조회 메서드
     @Transactional(readOnly = true)
@@ -91,5 +97,24 @@ public class ProductService {
         }
 
         productRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public BestSellingProductResponse findBestSellingProduct() {
+
+        // 조회 결과를 result 리스트에 담음
+        List<BestSellingProductResponse> result =
+                // 많이 팔린 상품 중 하나만 가져오므로
+                // 0 -> 첫 번째 페이지
+                // 1 -> 한 페이지에 가져올 데이터 개수
+                orderItemRepository.findBestSellingProducts(PageRequest.of(0, 1));
+
+        // 판매 내역이 없으면 예외 발생
+        if (result.isEmpty()) {
+            throw new NotFoundException("판매 내역이 없습니다.");
+        }
+
+        // 가장 많이 팔린 상품 반환
+        return result.get(0);
     }
 }

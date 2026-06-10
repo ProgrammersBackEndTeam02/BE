@@ -1,32 +1,31 @@
 package com.team02.be.dto;
 
 import com.team02.be.entity.Product;
-import lombok.Getter;
 
-@Getter
-public class AdminOrderResponse {
-
-    private final Long id;
-    private final String productName;
-    private final boolean isDecaf;
-    private final Product.RoastingLevel roastingLevel;
-    private final boolean acidity;
-    private final int productPrice;
-    private final int stock;
-    private final String description;
-    private final String thumbnailImageUrl;
-    private final String detailPageImageUrl;
-
-    public AdminOrderResponse(Product product) {
-        this.id = product.getId();
-        this.productName = product.getProductName();
-        this.isDecaf = product.isDecaf();
-        this.roastingLevel = product.getRoastingLevel();
-        this.acidity = product.isAcidity();
-        this.productPrice = product.getProductPrice();
-        this.stock = product.getStock();
-        this.description = product.getDescription();
-        this.thumbnailImageUrl = product.getThumbnailImageUrl();
-        this.detailPageImageUrl = product.getDetailPageImageUrl();
+public record AdminOrderResponse(
+        Long id,
+        String productName,
+        boolean isDecaf,
+        Product.RoastingLevel roastingLevel,
+        boolean acidity,
+        int productPrice,
+        int stock,
+        String description,
+        String thumbnailImageUrl,
+        String detailPageImageUrl
+) {
+    public static AdminOrderResponse from(Product product) {
+        return new AdminOrderResponse(
+                product.getId(),
+                product.getProductName(),
+                product.isDecaf(),
+                product.getRoastingLevel(),
+                product.isAcidity(),
+                product.getProductPrice(),
+                product.getStock(),
+                product.getDescription(),
+                product.getThumbnailImageUrl(),
+                product.getDetailPageImageUrl()
+        );
     }
 }
