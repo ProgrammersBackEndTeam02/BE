@@ -2,6 +2,7 @@ package com.team02.be.controller;
 
 import com.team02.be.dto.AdminProductCreateRequest;
 import com.team02.be.dto.AdminProductUpdateRequest;
+import com.team02.be.dto.BestSellingProductResponse;
 import com.team02.be.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,6 +41,15 @@ public class AdminProductController {
 
         // 서비스 로직을 통해 상품 정보 수정
         productService.updateProduct(productId, request);
+    }
+
+    @Operation(summary = "제일 많이 팔린 상품 조회", description = "주문 데이터를 기준으로 가장 많이 팔린 상품을 조회합니다.")
+    // 판매 수량이 가장 높은 상품 정보를 반환함
+    @GetMapping("/best-selling")
+    public BestSellingProductResponse getBestSellingProduct() {
+
+        // 서비스 로직을 통해 제일 많이 팔린 상품 조회해서 결과 반환
+        return productService.findBestSellingProduct();
     }
 
 }
