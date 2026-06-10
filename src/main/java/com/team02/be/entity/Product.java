@@ -137,4 +137,14 @@ public class Product {
             this.detailPageImageUrl = detailPageImageUrl;
         }
     }
+    // 재고 자동 차감
+    public void decreaseStock(int quantity) {
+        if (this.stock < quantity) {
+            throw new IllegalArgumentException(
+                    "재고가 부족합니다. (상품: " + this.productName +
+                            ", 현재 재고: " + this.stock + ", 요청 수량: " + quantity + ")"
+            );
+        }
+        this.stock -= quantity;
+    }
 }
