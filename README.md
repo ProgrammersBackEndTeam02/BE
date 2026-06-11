@@ -51,25 +51,18 @@
 
 ## 🏗️ 시스템 아키텍처
 
-<div align="center">
-  <img src="docs/images/architecture.png" width="750" alt="시스템 아키텍처" />
-</div>
+```
+   관리자 페이지 (FE) ─┐
+                       ├─►  Railway (Docker)  ─►  MySQL DB
+   사용자 페이지 (FE) ─┘     Spring Boot REST API
+       (Next.js 16)
+            │
+        Vercel 배포
+```
 
 - 프론트엔드(관리자/사용자 페이지)는 모두 동일한 REST API 서버와 HTTP 통신
 - 백엔드는 `Dockerfile` 기반으로 Railway에서 자동 빌드 및 배포
 - 장바구니는 `cart_token` 쿠키로 비회원 식별
-
-<br/>
-
-## 🗂️ ERD
-
-<div align="center">
-  <img src="docs/images/erd.png" width="750" alt="ERD" />
-</div>
-
-- **Product** — 상품 정보 (사용자 조회 / 관리자 CRUD)
-- **Order · OrderItem** — 주문 및 주문 상품 정보 (주문 시점 가격 저장)
-- **Cart · CartItem** — 비회원 장바구니 (`cart_token` 기반)
 
 <br/>
 
